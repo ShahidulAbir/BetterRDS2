@@ -8,6 +8,36 @@
     <link rel="stylesheet" href="{% static "main/style.css" %}">
 </head>
 <body>
-    <h1 style="color: aliceblue">WELCOME!!!!!!!!!!</h1>
+    <h1>WELCOME!!!!!!!!!!</h1>
+    <div class="container">
+        <table border="1">
+            <tr>
+                <th>Index</th>
+                <th>Course</th>
+                <th>Section</th>
+                <th>Faculty</th>
+                <th>Day</th>
+                <th>Start time</th>
+                <th>Finish Time</th>
+                <th>Room</th>
+                <th>Seats Available</th>
+            </tr>
+            {% if data %}
+                {% for row in data %}
+                    <tr>
+                        <td>{{ row.index }}</td>
+                        <td>{{ row.Course }}</td>
+                        <td>{{ row.Section }}</td>
+                        <td>{{ row.Faculty }}</td>
+                        <td>{{ row.Day }}</td>
+                        <td>{{ row.Start_Time }}</td>
+                        <td>{{ row.Finish_Time }}</td>
+                        <td>{{ row.Room }}</td>
+                        <td>{{ row.Seats_Available }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
+    </div>
 </body>
 </html>
