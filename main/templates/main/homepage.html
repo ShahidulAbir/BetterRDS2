@@ -5,39 +5,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
-    <link rel="stylesheet" href="{% static "main/style.css" %}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
 </head>
 <body>
     <h1>WELCOME!!!!!!!!!!</h1>
-    <div class="container">
-        <table border="1">
-            <tr>
-                <th>Index</th>
-                <th>Course</th>
-                <th>Section</th>
-                <th>Faculty</th>
-                <th>Day</th>
-                <th>Start time</th>
-                <th>Finish Time</th>
-                <th>Room</th>
-                <th>Seats Available</th>
-            </tr>
-            {% if data %}
-                {% for row in data %}
-                    <tr>
-                        <td>{{ row.index }}</td>
-                        <td>{{ row.Course }}</td>
-                        <td>{{ row.Section }}</td>
-                        <td>{{ row.Faculty }}</td>
-                        <td>{{ row.Day }}</td>
-                        <td>{{ row.Start_Time }}</td>
-                        <td>{{ row.Finish_Time }}</td>
-                        <td>{{ row.Room }}</td>
-                        <td>{{ row.Seats_Available }}</td>
-                    </tr>
-                {% endfor %}
-            {% endif %}
+    <div class="container" hidden id="table-container">
+        <table border="1" id="myTable">
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Course</th>
+                    <th>Section</th>
+                    <th>Faculty</th>
+                    <th>Day</th>
+                    <th>Start time</th>
+                    <th>Finish Time</th>
+                    <th>Room</th>
+                    <th>Seats Available</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if data %}
+                    {% for row in data %}
+                        <tr>
+                            <td>{{ row.index }}</td>
+                            <td>{{ row.Course }}</td>
+                            <td>{{ row.Section }}</td>
+                            <td>{{ row.Faculty }}</td>
+                            <td>{{ row.Day }}</td>
+                            <td>{{ row.Start_Time }}</td>
+                            <td>{{ row.Finish_Time }}</td>
+                            <td>{{ row.Room }}</td>
+                            <td>{{ row.Seats_Available }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
         </table>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+            document.getElementById("table-container").hidden = false;
+        } );
+    </script>
 </body>
 </html>
