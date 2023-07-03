@@ -46,7 +46,82 @@
 
     <script type="text/javascript">
         $(document).ready( function () {
-            $('#myTable').DataTable();
+            $('#myTable').DataTable({
+                "columnDefs": [ {
+                    "targets": 3,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        if ( cellData === "MW" ) {
+                            $(td).css('background-color', '#FF7171');
+                        } else if (cellData === "RA") {
+                            $(td).css('background-color', '#FFB05E')
+                        } else if (cellData === "ST") {
+                            $(td).css('background-color', '#FFD94D')
+                        } else if (cellData === "STR") {
+                            $(td).css('background-color', '#FFFE5D')
+                        } else if (cellData === "STWR") {
+                            $(td).css('background-color', '#E1FF71')
+                        } else if (cellData === "S") {
+                            $(td).css('background-color', '#A9FF8F')
+                        } else if (cellData === "T") {
+                            $(td).css('background-color', '#73FFAF')
+                        } else if (cellData === "R") {
+                            $(td).css('background-color', '#48FFCE')
+                        } else if (cellData === "A") {
+                            $(td).css('background-color', '#20E8FF')
+                        } else if (cellData === "M") {
+                            $(td).css('background-color', '#4BAAFF')
+                        } else if (cellData === "W") {
+                            $(td).css('background-color', '#6B73FF')
+                        } else if (cellData === "F") {
+                            $(td).css('background-color', '#8F48FF')
+                        } else if (cellData === "TBA") {
+                            $(td).css('background-color', '#B05EFF')
+                        }
+                    }
+                },
+                {
+                    "targets": 4,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        if ( cellData === "08:00 AM" ) {
+                            $(td).css('background-color', '#FF5454');
+                        } else if (cellData === "09:40 AM") {
+                            $(td).css('background-color', '#FF874F')
+                        } else if (cellData === "11:20 AM") {
+                            $(td).css('background-color', '#FFAE4F')
+                        } else if (cellData === "01:00 PM") {
+                            $(td).css('background-color', '#FFD74F')
+                        } else if (cellData === "02:40 PM") {
+                            $(td).css('background-color', '#FFFF4F')
+                        } else if (cellData === "04:20 PM") {
+                            $(td).css('background-color', '#B5FF4F')
+                        } else if (cellData === "03:10 PM") {
+                            $(td).css('background-color', '#6EFF4F')
+                        } else if (cellData === "TBA") {
+                            $(td).css('background-color', '#33FF4F')
+                        } else if (cellData === "06:00 PM") {
+                            $(td).css('background-color', '#00FF69')
+                        } else if (cellData === "07:00 PM") {
+                            $(td).css('background-color', '#00FFB5')
+                        } else if (cellData === "03:00 PM") {
+                            $(td).css('background-color', '#00FFB5')
+                        } else if (cellData === "09:00 AM") {
+                            $(td).css('background-color', '#00B5FF')
+                        } else if (cellData === "11:15 AM") {
+                            $(td).css('background-color', '#006EFF')
+                        } else if (cellData === "01:30 PM") {
+                            $(td).css('background-color', '#3300FF')
+                        } else if (cellData === "04:00 PM") {
+                            $(td).css('background-color', '#3300FF')
+                        } else if (cellData === "10:35 PM") {
+                            $(td).css('background-color', '#3300FF')
+                        } else if (cellData === "07:30 AM") {
+                            $(td).css('background-color', '#FF00C1')
+                        } else if (cellData === "06:10 PM") {
+                            $(td).css('background-color', '#FF00C1')
+                        }
+                    }
+                } ]
+            });
             document.getElementById("table-container").hidden = false;
         } );
     </script>
