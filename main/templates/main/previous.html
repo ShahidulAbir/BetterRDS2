@@ -6,11 +6,17 @@
     <meta charset="UTF-8">
     <title>Previous Semesters</title>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="{% static "main/style.css" %}">
 </head>
-<body id="mainBody" hidden>
+<body id="mainBody" style="background-color: azure">
+    <div class="topnav">
+        <a href="http://127.0.0.1:8000/">This Semester</a>
+        <a class="active" href="http://127.0.0.1:8000/previous/">Previous Semesters</a>
+    </div>
     <h1 style="text-align: center">Previous Semesters' Offered Course List</h1>
-    <div class="container" id="table-container" style="width:80%; margin: auto">
-        <table border="1" id="myTable" style="width:100%">
+    <p><strong>Data collected from <a href="https://nsu.nibirahmed.com/" target="_blank">https://nsu.nibirahmed.com/</a></strong></p>
+    <div class="container" id="table-container" style="width:90%; margin: auto; background-color: azure" hidden>
+        <table border="1" id="myTable" style="width:100%; background-color: cornsilk; padding: 10px">
             <thead>
                 <tr>
                     <th>Course</th>
@@ -26,6 +32,18 @@
             <tbody id="myTableBody">
 
             </tbody>
+            <tfoot>
+                <tr>
+                    <th>Course</th>
+                    <th>Section</th>
+                    <th>Faculty</th>
+                    <th>Room</th>
+                    <th>Semester</th>
+                    <th>Day</th>
+                    <th>Start Time</th>
+                    <th>Finish Time</th>
+                </tr>
+            </tfoot>
         </table>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
@@ -72,8 +90,9 @@
                 //INSERTING ROWS INTO TABLE
                 $('#myTableBody').append(student);
 
+                var groupColumn = 2;
                 console.log("Second Done!");
-                $('#myTable').DataTable({
+                $('#myTable').DataTable( {
                     "columnDefs": [ {
                         "targets": 5,
                         "createdCell": function (td, cellData, rowData, row, col) {
@@ -147,10 +166,52 @@
                                 $(td).css('background-color', '#FF00C1')
                             }
                         }
-                    } ]
+                    } ],
+                    drawCallback: function (settings) {
+                            var api = this.api();
+                            var rows = api.rows({ page: 'current' }).nodes();
+                            var last = null;
+
+                            api.column(groupColumn, { page: 'current' })
+                                .data()
+                                .each(function (group, i) {
+                                    if (last !== group) {
+                                        $(rows)
+                                            .eq(i)
+                                            .before(
+                                                '<tr class="group" style="background-color: gainsboro"><td colspan="8">' +
+                                                    group +
+                                                    '</td></tr>'
+                                            );
+
+                                        last = group;
+                                    }
+                                });
+                        },
+                    initComplete: function () {
+                        this.api()
+                            .columns()
+                            .every(function () {
+                                let column = this;
+                                let title = column.footer().textContent;
+
+                                // Create input element
+                                let input = document.createElement('input');
+                                input.placeholder = title;
+                                column.footer().replaceChildren(input);
+
+                                // Event listener for user input
+                                input.addEventListener('keyup', () => {
+                                    if (column.search() !== this.value) {
+                                        column.search(input.value).draw();
+                                    }
+                                });
+                            });
+                    }
                 });
+
                 console.log("Third Done!")
-                document.getElementById("mainBody").hidden = false;
+                document.getElementById("table-container").hidden = false;
                 console.log("Fourth Done!");
 
             });
