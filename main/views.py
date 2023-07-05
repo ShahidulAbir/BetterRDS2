@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from django.shortcuts import render, redirect, HttpResponse
-import pandas as pd
+from pandas import read_excel, to_datetime
 import json
 
 
 # Create your views here.
 def homepage(request):
-    df = pd.read_excel("main/static/original.xlsx")
+    df = read_excel("main/static/original.xlsx")
 
     df['Split'] = df['Time'].str.split()
     df = df.drop(['Time', 'Unnamed: 0'], axis=1)
@@ -17,7 +17,7 @@ def homepage(request):
 
     df = df.drop(['Split'], axis=1)
 
-    df['Formatted_Time'] = pd.to_datetime(df['Start_Time'], format='%I:%M %p', errors='coerce')
+    df['Formatted_Time'] = to_datetime(df['Start_Time'], format='%I:%M %p', errors='coerce')
     df = df.sort_values(['Course', 'Day', 'Formatted_Time', 'Section'])
 
     df.rename(columns={'Seats Available': 'Seats_Available'}, inplace=True)
@@ -26,3 +26,7 @@ def homepage(request):
     data = json.loads(json_records)
 
     return render(request, 'main/homepage.html', {"data": data})
+
+
+def previous(request):
+    return render(request, 'main/previous.html')
