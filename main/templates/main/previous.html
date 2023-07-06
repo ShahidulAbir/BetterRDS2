@@ -45,6 +45,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/rowgroup/1.4.0/js/dataTables.rowGroup.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready( function () {
@@ -64,6 +65,17 @@
                         { data: 'Start_Time' },
                         { data: 'Finish_Time' },
                     ],
+                    rowGroup: {
+                        dataSrc: ['Faculty', 'Semester'],
+                        startRender: function(rows, group, level) {
+                            console.log(level)
+                            if (level === 0) {
+                                return $('<tr class="group" style="background-color: #DCDCDC"><td colspan="8">' + group + '</td></tr>');
+                            } else if (level === 1) {
+                                return $('<tr class="group" style="background-color: #EEEEEE"><td colspan="8" style="padding-left: 70px">' + group + '</td></tr>');
+                            }
+                         }
+                    },
                     "columnDefs": [ {
                         "targets": 5,
                         "createdCell": function (td, cellData, rowData, row, col) {
@@ -138,27 +150,6 @@
                             }
                         }
                     } ],
-                    drawCallback: function (settings) {
-                            var api = this.api();
-                            var rows = api.rows({ page: 'current' }).nodes();
-                            var last = null;
-
-                            api.column(groupColumn, { page: 'current' })
-                                .data()
-                                .each(function (group, i) {
-                                    if (last !== group) {
-                                        $(rows)
-                                            .eq(i)
-                                            .before(
-                                                '<tr class="group" style="background-color: gainsboro"><td colspan="8">' +
-                                                    group +
-                                                    '</td></tr>'
-                                            );
-
-                                        last = group;
-                                    }
-                                });
-                        },
                     initComplete: function () {
                         this.api()
                             .columns()
