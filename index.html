@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Previous Semesters</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="main/static/main/style.css">
+</head>
+<body id="mainBody" style="background-color: azure">
+    <div class="topnav">
+        <a href="http://127.0.0.1:8000/">This Semester</a>
+        <a class="active" href="http://127.0.0.1:8000/previous/">Previous Semesters</a>
+    </div>
+    <h1 style="text-align: center">Previous Semesters' Offered Course List</h1>
+    <p style="font-size: 24px"><strong>Data collected from <a href="https://nsu.nibirahmed.com/" target="_blank">https://nsu.nibirahmed.com/</a></strong></p>
+    <div class="container" id="table-container" style="width:90%; margin: auto; background-color: azure" hidden>
+        <table border="1" id="myTable" style="width:100%; background-color: cornsilk; padding: 10px">
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Section</th>
+                    <th>Faculty</th>
+                    <th>Room</th>
+                    <th>Semester</th>
+                    <th>Day</th>
+                    <th>Start Time</th>
+                    <th>Finish Time</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Course</th>
+                    <th>Section</th>
+                    <th>Faculty</th>
+                    <th>Room</th>
+                    <th>Semester</th>
+                    <th>Day</th>
+                    <th>Start Time</th>
+                    <th>Finish Time</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/rowgroup/1.4.0/js/dataTables.rowGroup.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready( function () {
+            var groupColumn = 2;
+            $('#myTable').DataTable( {
+                    ajax: {
+                        url: 'main/static/main/data.json',
+                        dataSrc: ''
+                    },
+                    columns: [
+                        { data: 'Course' },
+                        { data: 'Section' },
+                        { data: 'Faculty' },
+                        { data: 'Room' },
+                        { data: 'Semester' },
+                        { data: 'Day' },
+                        { data: 'Start_Time' },
+                        { data: 'Finish_Time' },
+                    ],
+                    rowGroup: {
+                        dataSrc: ['Faculty', 'Semester'],
+                        startRender: function(rows, group, level) {
+                            console.log(level)
+                            if (level === 0) {
+                                return $('<tr class="group" style="background-color: #DCDCDC"><td colspan="8">' + group + '</td></tr>');
+                            } else if (level === 1) {
+                                return $('<tr class="group" style="background-color: #EEEEEE"><td colspan="8" style="padding-left: 70px">' + group + '</td></tr>');
+                            }
+                         }
+                    },
+                    "columnDefs": [ {
+                        "targets": 5,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            if ( cellData === "MW" ) {
+                                $(td).css('background-color', '#FF7171');
+                            } else if (cellData === "RA") {
+                                $(td).css('background-color', '#FFB05E')
+                            } else if (cellData === "ST") {
+                                $(td).css('background-color', '#FFD94D')
+                            } else if (cellData === "STR") {
+                                $(td).css('background-color', '#FFFE5D')
+                            } else if (cellData === "STWR") {
+                                $(td).css('background-color', '#E1FF71')
+                            } else if (cellData === "S") {
+                                $(td).css('background-color', '#A9FF8F')
+                            } else if (cellData === "T") {
+                                $(td).css('background-color', '#73FFAF')
+                            } else if (cellData === "R") {
+                                $(td).css('background-color', '#48FFCE')
+                            } else if (cellData === "A") {
+                                $(td).css('background-color', '#20E8FF')
+                            } else if (cellData === "M") {
+                                $(td).css('background-color', '#4BAAFF')
+                            } else if (cellData === "W") {
+                                $(td).css('background-color', '#6B73FF')
+                            } else if (cellData === "F") {
+                                $(td).css('background-color', '#8F48FF')
+                            } else if (cellData === "TBA") {
+                                $(td).css('background-color', '#B05EFF')
+                            }
+                        }
+                    },
+                    {
+                        "targets": 6,
+                        "createdCell": function (td, cellData, rowData, row, col) {
+                            if ( cellData === "08:00 AM" ) {
+                                $(td).css('background-color', '#FF5454');
+                            } else if (cellData === "09:40 AM") {
+                                $(td).css('background-color', '#FF874F')
+                            } else if (cellData === "11:20 AM") {
+                                $(td).css('background-color', '#FFAE4F')
+                            } else if (cellData === "01:00 PM") {
+                                $(td).css('background-color', '#FFD74F')
+                            } else if (cellData === "02:40 PM") {
+                                $(td).css('background-color', '#FFFF4F')
+                            } else if (cellData === "04:20 PM") {
+                                $(td).css('background-color', '#B5FF4F')
+                            } else if (cellData === "03:10 PM") {
+                                $(td).css('background-color', '#6EFF4F')
+                            } else if (cellData === "TBA") {
+                                $(td).css('background-color', '#33FF4F')
+                            } else if (cellData === "06:00 PM") {
+                                $(td).css('background-color', '#00FF69')
+                            } else if (cellData === "07:00 PM") {
+                                $(td).css('background-color', '#00FFB5')
+                            } else if (cellData === "03:00 PM") {
+                                $(td).css('background-color', '#00FFB5')
+                            } else if (cellData === "09:00 AM") {
+                                $(td).css('background-color', '#00B5FF')
+                            } else if (cellData === "11:15 AM") {
+                                $(td).css('background-color', '#006EFF')
+                            } else if (cellData === "01:30 PM") {
+                                $(td).css('background-color', '#3300FF')
+                            } else if (cellData === "04:00 PM") {
+                                $(td).css('background-color', '#3300FF')
+                            } else if (cellData === "10:35 PM") {
+                                $(td).css('background-color', '#3300FF')
+                            } else if (cellData === "07:30 AM") {
+                                $(td).css('background-color', '#FF00C1')
+                            } else if (cellData === "06:10 PM") {
+                                $(td).css('background-color', '#FF00C1')
+                            }
+                        }
+                    } ],
+                    initComplete: function () {
+                        this.api()
+                            .columns()
+                            .every(function () {
+                                let column = this;
+                                let title = column.footer().textContent;
+
+                                // Create input element
+                                let input = document.createElement('input');
+                                input.placeholder = title;
+                                column.footer().replaceChildren(input);
+
+                                // Event listener for user input
+                                input.addEventListener('keyup', () => {
+                                    if (column.search() !== this.value) {
+                                        column.search(input.value).draw();
+                                    }
+                                });
+                            });
+                    }
+                });
+            document.getElementById("table-container").hidden = false;
+        } );
+    </script>
+</body>
+</html>
