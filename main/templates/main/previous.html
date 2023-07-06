@@ -14,7 +14,7 @@
         <a class="active" href="http://127.0.0.1:8000/previous/">Previous Semesters</a>
     </div>
     <h1 style="text-align: center">Previous Semesters' Offered Course List</h1>
-    <p><strong>Data collected from <a href="https://nsu.nibirahmed.com/" target="_blank">https://nsu.nibirahmed.com/</a></strong></p>
+    <p style="font-size: 24px"><strong>Data collected from <a href="https://nsu.nibirahmed.com/" target="_blank">https://nsu.nibirahmed.com/</a></strong></p>
     <div class="container" id="table-container" style="width:90%; margin: auto; background-color: azure" hidden>
         <table border="1" id="myTable" style="width:100%; background-color: cornsilk; padding: 10px">
             <thead>
@@ -29,9 +29,6 @@
                     <th>Finish Time</th>
                 </tr>
             </thead>
-            <tbody id="myTableBody">
-
-            </tbody>
             <tfoot>
                 <tr>
                     <th>Course</th>
@@ -51,48 +48,22 @@
 
     <script type="text/javascript">
         $(document).ready( function () {
-            $.getJSON("{% static "main/data.json" %}", function (data) {
-                var student = '';
-
-                // ITERATING THROUGH OBJECTS
-                $.each(data, function (key, value) {
-
-                    //CONSTRUCTION OF ROWS HAVING
-                    // DATA FROM JSON OBJECT
-                    student += '<tr>';
-                    student += '<td>' +
-                        value.Course + '</td>';
-
-                    student += '<td>' +
-                        value.Section + '</td>';
-
-                    student += '<td>' +
-                        value.Faculty + '</td>';
-
-                    student += '<td>' +
-                        value.Room + '</td>';
-
-                    student += '<td>' +
-                        value.Semester + '</td>';
-
-                    student += '<td>' +
-                        value.Day + '</td>';
-
-                    student += '<td>' +
-                        value.Start_Time + '</td>';
-
-                    student += '<td>' +
-                        value.Finish_Time + '</td>';
-
-                    student += '</tr>';
-                });
-
-                //INSERTING ROWS INTO TABLE
-                $('#myTableBody').append(student);
-
-                var groupColumn = 2;
-                console.log("Second Done!");
-                $('#myTable').DataTable( {
+            var groupColumn = 2;
+            $('#myTable').DataTable( {
+                    ajax: {
+                        url: '{% static 'main/data.json' %}',
+                        dataSrc: ''
+                    },
+                    columns: [
+                        { data: 'Course' },
+                        { data: 'Section' },
+                        { data: 'Faculty' },
+                        { data: 'Room' },
+                        { data: 'Semester' },
+                        { data: 'Day' },
+                        { data: 'Start_Time' },
+                        { data: 'Finish_Time' },
+                    ],
                     "columnDefs": [ {
                         "targets": 5,
                         "createdCell": function (td, cellData, rowData, row, col) {
@@ -209,16 +180,8 @@
                             });
                     }
                 });
-
-                console.log("Third Done!")
-                document.getElementById("table-container").hidden = false;
-                console.log("Fourth Done!");
-
-            });
-            console.log("First Done!");
+            document.getElementById("table-container").hidden = false;
         } );
-
-        console.log("Fifth Done!");
     </script>
 </body>
 </html>
