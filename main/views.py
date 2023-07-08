@@ -1,15 +1,20 @@
 from django.shortcuts import render
-from django.shortcuts import render, redirect, HttpResponse
-from pandas import read_excel, to_datetime
+from pandas import read_html, to_datetime
+import requests
 import json
 
 
 # Create your views here.
 def homepage(request):
-    df = read_excel("main/static/original.xlsx")
+   header = {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.75 Safari/537.36",
+        "X-Requested-With": "XMLHttpRequest"
+    }
 
-    df['Split'] = df['Time'].str.split()
-    df = df.drop(['Time', 'Unnamed: 0'], axis=1)
+    url = "https://rds2.northsouth.edu/index.php/common/showofferedcourses"
+
+    r = requests.get(url, headers=header)
+    df = read_html(r.text)[0]
 
     df['Day'] = df['Split'].apply(lambda x: x[0] if len(x) == 6 else "TBA")
     df['Start_Time'] = df['Split'].apply(lambda x: f"{x[1]} {x[2]}" if len(x) == 6 else "TBA")
